@@ -58,6 +58,7 @@ export class ChatClientComponent implements OnInit {
     // get message list
     this.getMsg()
       .then(() => {
+        console.log(this.msgList);
         this.scrollToBottom();
       });
 

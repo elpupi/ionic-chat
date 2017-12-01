@@ -31,15 +31,15 @@ const messages_txt = [
 /* tslint:enable:quotemark */
 
 const nb_msg = messages_txt.length;
-const time_start = 140000198202211138;
-const time_offset = 10;
+const time_start = Date.now();
+const time_offset = 100000000;
 
 for (let msg_i = 0; msg_i < nb_msg; ++msg_i) {
   MESSAGES.push(new ChatMessage(
     msg_i,
-    msg_i % 2 === 0 ? user : userTo,
-    msg_i % 2 === 1 ? userTo : user,
-    time_start + msg_i * time_offset,
+    msg_i % 3 === 0 ? user : userTo,
+    msg_i % 3 !== 0 ? userTo : user,
+    time_start - (nb_msg - 1 - msg_i) * time_offset,
     messages_txt[msg_i],
     'succsess'
   ));

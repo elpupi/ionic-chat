@@ -100,10 +100,48 @@ $item-paragraph-text-color: $item-md-paragraph-text-color, $item-ios-paragraph-t
     }
 }
 
-chat-client {
-    $userBackgroundColor: #387ef5;
-    $toUserBackgroundColor: #fff;
+$userBackgroundColor: #387ef5;
+$toUserBackgroundColor: #fff;
 
+%chat-triangle {
+    span.triangle {
+        background-color: #fff;
+        border-radius: 2px;
+        height: 8px;
+        width: 8px;
+        top: 12px;
+        display: block;
+        border-style: solid;
+        border-color: #ddd;
+        border-width: 1px;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        position: absolute;
+    }
+}
+
+%chat-left-triangle {
+    @extend %chat-triangle;
+
+    span.triangle {
+        border-top-width: 0;
+        border-right-width: 0;
+        left: -5px;
+    }
+}
+
+%chat-right-triangle {
+    @extend %chat-triangle;
+
+    span.triangle {
+        background-color: $userBackgroundColor;
+        border-bottom-width: 0;
+        border-left-width: 0;
+        right: -5px;
+    }
+}
+
+chat-client {
     ion-content .scroll-content {
         background-color: #f5f5f5;
     }
@@ -260,9 +298,42 @@ chat-client {
     .message-wrap2 {
         padding: 0 10px;
 
+        $margintop-msg-content: 5px;
+
+        ion-item:first-child {
+            margin-top: $margintop-msg-content;
+            color: red;
+        }
+
+        ion-item {
+            background-color: inherit;
+
+            .item-inner {
+                padding: 0 !important;
+
+                ion-label {
+                    margin: 0;
+                }
+            }
+
+            .item-inner, .input-wrapper, .label {
+                overflow: visible;
+            }
+        }
+
         .message {
             position: relative;
-            padding: 7px 0;
+            padding: 0;
+
+            $fontsize-msg-info: 1.1rem;
+
+            ion-avatar {
+                align-self: flex-start;
+                margin-top: 0; //$fontsize-msg-info; //unquote("-webkit-calc(#{$fontsize-msg-info} + #{$margintop-msg-content})");
+                margin-bottom: 0;
+                border-radius: 50%;
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+            }
 
             .msg-detail {
                 width: 100%;
@@ -274,72 +345,69 @@ chat-client {
 
                 .msg-info {
                     p {
-                        font-size: .8em;
+                        font-size: $fontsize-msg-info;
                         color: #888;
                     }
                 }
 
                 .msg-content {
                     position: relative;
-                    margin-top: 5px;
-                    border-radius: 5px;
+                    border-radius: 10px;
                     padding: 8px;
                     border: 1px solid #ddd;
-                    color: #fff;
                     width: auto;
-
-                    span.triangle {
-                        background-color: #fff;
-                        border-radius: 2px;
-                        height: 8px;
-                        width: 8px;
-                        top: 12px;
-                        display: block;
-                        border-style: solid;
-                        border-color: #ddd;
-                        border-width: 1px;
-                        -webkit-transform: rotate(45deg);
-                        transform: rotate(45deg);
-                        position: absolute;
-                    }
+                    overflow: visible;
                 }
             }
         }
 
         .message.left {
-            .msg-content {
-                background-color: $toUserBackgroundColor;
-                float: left;
-                color: #343434;
-
-                span.triangle {
-                    border-top-width: 0;
-                    border-right-width: 0;
-                    left: -5px;
-                }
+            ion-avatar {
+                margin-right: 8px;
+                margin-left: 0;
             }
 
-            .msg-detail {
-                padding-left: 60px;
+            .msg-content {
+                p {
+                    color: #343434;
+                }
+
+                background-color: $toUserBackgroundColor;
+
+                //@extend %chat-left-triangle;
+                .triangle2:before {
+                    content: "";
+                    position: absolute;
+                    border: 0 solid transparent;
+                    border-top: 8px solid red;
+                    border-radius: 13px 0 0 0;
+                    top: 0px;
+                    left: 0px;
+                    width: 11px;
+                    height: 38px;
+                    transform-origin: top left;
+                    transform: rotate(0deg);
+                }
             }
         }
 
         .message.right {
-            .msg-content {
-                background-color: $userBackgroundColor;
-                float: right;
+            ion-avatar {
+                margin-left: 8px;
+                margin-right: 0;
+            }
 
-                span.triangle {
-                    background-color: $userBackgroundColor;
-                    border-bottom-width: 0;
-                    border-left-width: 0;
-                    right: -5px;
+            .msg-content {
+                p {
+                    color: #fff;
                 }
+
+                background-color: $userBackgroundColor;
+
+                @extend %chat-right-triangle;
             }
 
             .msg-detail {
-                padding-right: 60px;
-
                 .msg-info {
                     text-align: right;
                 }
