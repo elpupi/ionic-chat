@@ -32,7 +32,7 @@ const messages_txt = [
 
 const nb_msg = messages_txt.length;
 const time_start = Date.now();
-const time_offset = 100000000;
+const time_offset = 10000000;//100000000;
 
 for (let msg_i = 0; msg_i < nb_msg; ++msg_i) {
   MESSAGES.push(new ChatMessage(

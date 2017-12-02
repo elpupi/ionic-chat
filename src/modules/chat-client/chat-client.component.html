@@ -58,9 +58,11 @@
           <!--div class="msg-info">
             <p>{{msg.userFrom.id === user?.id ? msg.userFrom.name : msg.userTo.name}}&nbsp;&nbsp;&nbsp;{{msg.time | relativeTime}}</p>
         </div>-->
-          <div class="msg-content">
-            <span class="triangle"></span>
-            <p class="triangle2">{{msg.message}}</p>
+          <div class="msg-content triangle2">
+            <p class="msg-text">{{msg.message}}</p>
+            <div class="msg-meta">
+              <span class="time">{{msg.time | date:'shortTime'}}</span>
+            </div>
           </div>
         </div>
       </ion-item>
