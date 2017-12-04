@@ -3,104 +3,8 @@ $toolbar-height: $navbar-md-height $navbar-ios-height $navbar-wp-height;
 $item-avatar-size: $item-md-avatar-size, $item-ios-avatar-size, $item-wp-avatar-size;
 $item-paragraph-text-color: $item-md-paragraph-text-color, $item-ios-paragraph-text-color, $item-wp-paragraph-text-color;
 
-@for $i from 1 through length($platforms) {
-    .#{nth($platforms, $i)} chat-client {
-        /*.navbar-user img {
-          height: nth($toolbar-height, $i) * 0.7;
-        }*/
-
-        .mt-user-data {
-            @include margin(0);
-            @include padding(0);
-            @include text-align(initial);
-
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: start;
-
-            //
-            overflow: hidden;
-            border: 0;
-            font-weight: normal;
-            line-height: normal;
-            text-decoration: none;
-            color: inherit;
-            max-height: nth($toolbar-height, $i) * 0.95;
-
-            $avatar-size: nth($toolbar-height, $i) * 0.7;
-
-            > .mt-avatar {
-                display: block;
-                min-width: $avatar-size;
-                min-height: $avatar-size;
-
-                > img {
-                    //@include border-radius(50%);
-                    //margin: 0 2px 0 0;
-                    border-radius: 50%;
-                    overflow: hidden;
-
-                    //height: $avatar-size;
-                    width: $avatar-size;
-                    object-fit: contain;
-                }
-            }
-
-            > .description {
-                @include margin(0);
-                @include padding(0);
-
-                margin: (0.05 * $avatar-size) 0 (0.05 * $avatar-size) 0.8rem;
-                padding: 0;
-                text-overflow: ellipsis;
-
-                //align-self: auto;
-                display: flex;
-                flex: 1;
-                flex-direction: column;
-                align-items: start;
-                border: 0;
-            }
-
-            h2 {
-                @include margin(0);
-                @include padding(0);
-
-                //@include margin(2px, 0);
-                //margin: 2px 0 0 0;
-                font-size: 1.6rem;
-                font-weight: normal;
-            }
-
-            h3, h4, h5, h6 {
-                @include margin(0);
-                @include padding(0);
-
-                //@include margin(2px, 0);
-                //margin: 2px 0;
-                font-size: 1.4rem;
-                font-weight: normal;
-                line-height: normal;
-            }
-
-            p {
-                //@include margin(0, 0, 2px);
-                @include margin(0);
-                @include padding(0);
-
-                //margin: 0 0 2px 0;
-                overflow: inherit;
-                font-size: 1.4rem;
-                line-height: normal;
-                text-overflow: inherit;
-                color: $item-md-paragraph-text-color;
-            }
-        }
-    }
-}
-
-$userBackgroundColor: #387ef5;
+//$userBackgroundColor: #387ef5;
+$userBackgroundColor: #d18686;
 $toUserBackgroundColor: #fff;
 
 %chat-triangle {
@@ -142,6 +46,105 @@ $toUserBackgroundColor: #fff;
 }
 
 chat-client {
+    @for $i from 1 through length($platforms) {
+        .#{nth($platforms, $i)} & {
+            ion-navbar {
+                /*.navbar-user img {
+                    height: nth($toolbar-height, $i) * 0.7;
+                  }*/
+
+                .mt-user-data {
+                    @include margin(0);
+                    @include padding(0);
+                    @include text-align(initial);
+
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: start;
+
+                    //
+                    overflow: hidden;
+                    border: 0;
+                    font-weight: normal;
+                    line-height: normal;
+                    text-decoration: none;
+                    color: inherit;
+                    max-height: nth($toolbar-height, $i) * 0.95;
+
+                    $avatar-size: nth($toolbar-height, $i) * 0.7;
+
+                    > .mt-avatar {
+                        display: block;
+                        min-width: $avatar-size;
+                        min-height: $avatar-size;
+
+                        > img {
+                            //@include border-radius(50%);
+                            //margin: 0 2px 0 0;
+                            border-radius: 50%;
+                            overflow: hidden;
+
+                            //height: $avatar-size;
+                            width: $avatar-size;
+                            object-fit: contain;
+                        }
+                    }
+
+                    > .description {
+                        @include margin(0);
+                        @include padding(0);
+
+                        margin: (0.05 * $avatar-size) 0 (0.05 * $avatar-size) 0.8rem;
+                        padding: 0;
+                        text-overflow: ellipsis;
+
+                        //align-self: auto;
+                        display: flex;
+                        flex: 1;
+                        flex-direction: column;
+                        align-items: start;
+                        border: 0;
+                    }
+
+                    h2 {
+                        @include margin(0);
+                        @include padding(0);
+
+                        //@include margin(2px, 0);
+                        //margin: 2px 0 0 0;
+                        font-size: 1.6rem;
+                        font-weight: normal;
+                    }
+
+                    h3, h4, h5, h6 {
+                        @include margin(0);
+                        @include padding(0);
+
+                        //@include margin(2px, 0);
+                        //margin: 2px 0;
+                        font-size: 1.4rem;
+                        font-weight: normal;
+                        line-height: normal;
+                    }
+
+                    p {
+                        //@include margin(0, 0, 2px);
+                        @include margin(0);
+                        @include padding(0);
+
+                        //margin: 0 0 2px 0;
+                        overflow: inherit;
+                        font-size: 1.4rem;
+                        line-height: normal;
+                        text-overflow: inherit;
+                        color: $item-md-paragraph-text-color;
+                    }
+                }
+            }
+        }
+    }
+
     ion-content .scroll-content {
         //background-color: #f5f5f5;
         background-color: rgb(230, 231, 224);
@@ -187,99 +190,95 @@ chat-client {
     }
 
     .message-wrap {
+        width: 100%;
         padding: 0 10px;
+        display: flex;
+        flex-direction: column;
+
+        $padding-message: 8px;
+        $avatar-size: 28px;
+        $size-triangle: 15px;
 
         .message {
-            position: relative;
-            padding: 7px 0;
+            display: flex;
+            align-items: flex-start;
+            max-width: 75%;
 
             .user-img {
-                position: absolute;
-                border-radius: 45px;
-                width: 45px;
-                height: 45px;
+                border-radius: 50%;
+                width: $avatar-size;
+                height: $avatar-size;
                 box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
             }
 
-            .msg-detail {
-                width: 100%;
-                display: inline-block;
+            .triangle {
+                position: relative;
+            }
+
+            .msg-content {
+                display: flex;
+                align-items: flex-end;
+                border-radius: 10px;
+                padding: $padding-message;
+                border: 1px solid #ddd;
+                color: #fff;
 
                 p {
                     margin: 0;
                 }
 
-                .msg-info {
-                    p {
-                        font-size: .8em;
-                        color: #888;
-                    }
-                }
-
-                .msg-content {
-                    position: relative;
-                    margin-top: 5px;
-                    border-radius: 5px;
-                    padding: 8px;
-                    border: 1px solid #ddd;
-                    color: #fff;
-                    width: auto;
-
-                    span.triangle {
-                        background-color: #fff;
-                        border-radius: 2px;
-                        height: 8px;
-                        width: 8px;
-                        top: 12px;
-                        display: block;
-                        border-style: solid;
-                        border-color: #ddd;
-                        border-width: 1px;
-                        -webkit-transform: rotate(45deg);
-                        transform: rotate(45deg);
-                        position: absolute;
-                    }
+                .time {
+                    white-space: nowrap;
+                    font-size: 1.1rem;
+                    display: block;
+                    margin-bottom: -$padding-message + 2px;
                 }
             }
         }
 
-        .message.left {
-            .msg-content {
-                background-color: $toUserBackgroundColor;
-                float: left;
-            }
+        .message.first {
+            margin-top: 10px;
+        }
 
-            .msg-detail {
-                padding-left: 60px;
-            }
+        .message.left {
+            align-self: flex-start;
 
             .user-img {
-                left: 0;
+                margin-right: 8px;
             }
 
             .msg-content {
+                background-color: $toUserBackgroundColor;
                 color: #343434;
+            }
 
-                span.triangle {
-                    border-top-width: 0;
-                    border-right-width: 0;
-                    left: -5px;
-                }
+            .triangle:before {
+                content: "";
+                background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(.922 0 0 .922 -40.145 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$toUserBackgroundColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
+                background-size: contain;
+                background-repeat: no-repeat;
+                width: $size-triangle;
+                height: $size-triangle;
+                position: absolute;
+                top: 2px;
+                left: -$size-triangle / 2;
+                display: block;
+
+                /*border: 0 solid transparent;
+                border-top: 8px solid red;
+                border-radius: 13px 0 0 0;
+                top: 0px;
+                left: 0px;
+                width: 11px;
+                height: 38px;
+                transform-origin: top left;
+                transform: rotate(0deg);*/
             }
         }
 
         .message.right {
-            .msg-detail {
-                padding-right: 60px;
-
-                .msg-info {
-                    text-align: right;
-                }
-            }
-
-            .user-img {
-                right: 0;
-            }
+            align-self: flex-end; //from wraper
+            flex-direction: row-reverse;
 
             ion-spinner {
                 position: absolute;
@@ -287,15 +286,25 @@ chat-client {
                 top: 50px;
             }
 
+            .triangle:before {
+                content: "";
+                background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(-.922 0 0 .922 43.05 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$userBackgroundColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
+                background-size: contain;
+                background-repeat: no-repeat;
+                width: $size-triangle;
+                height: $size-triangle;
+                position: absolute;
+                top: 2px;
+                right: 0; //-$size-triangle / 2;
+                display: block;
+            }
+
             .msg-content {
                 background-color: $userBackgroundColor;
-                float: right;
+                margin-right: 8px;
 
-                span.triangle {
-                    background-color: $userBackgroundColor;
-                    border-bottom-width: 0;
-                    border-left-width: 0;
-                    right: -5px;
+                .time {
+                    color: rgb(36, 36, 36);
                 }
             }
         }

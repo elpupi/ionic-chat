@@ -58,7 +58,6 @@ export class ChatClientComponent implements OnInit {
     // get message list
     this.getMsg()
       .then(() => {
-        console.log(this.msgList);
         this.scrollToBottom();
       });
 
@@ -145,4 +144,8 @@ export class ChatClientComponent implements OnInit {
     // Otherwise the page is scrolled down before the lines are added to the DOM
   }
 
+  isFirstMessage(i: number) {
+    if (i === 0 || this.msgList[i - 1].userFrom !== this.msgList[i].userFrom) return true;
+    return false;
+  }
 }

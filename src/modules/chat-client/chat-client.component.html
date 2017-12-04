@@ -71,33 +71,28 @@
 
   <div class="message-wrap">
 
-    <div *ngFor="let msg of msgList" class="message" [class.left]=" msg.userFrom.id===userTo?.id" [class.right]=" msg.userFrom.id===user?.id">
+    <div *ngFor="let msg of msgList; let i = index" class="message" [class.first]="isFirstMessage(i)" [class.left]="msg.userFrom.id===userTo?.id"
+      [class.right]="msg.userFrom.id===user?.id">
       <img class="user-img" [src]="msg.userFrom.id===user?.id ? msg.userFrom.avatar : msg.userTo.avatar" alt="">
       <ion-spinner name="dots" *ngIf="msg.status==='pending'"></ion-spinner>
-      <div class="msg-detail">
-        <div class="msg-info">
+      <!--<div class="msg-info">
           <p>
             {{msg.userFrom.id === user?.id ? msg.userFrom.name : msg.userTo.name}}&nbsp;&nbsp;&nbsp;{{msg.time | relativeTime}}</p>
-        </div>
+        </div>-->
+      <div class="msg-content-container triangle">
+
         <div class="msg-content">
-          <span class="triangle"></span>
-          <p class="line-breaker">{{msg.message}}</p>
+          <!--<span class="triangle"></span>-->
+          <p class="msg-text line-breaker ">{{msg.message}}</p>
+          <div class="msg-meta">
+            <span class="time">{{msg.time | date:'shortTime'}}</span>
+          </div>
         </div>
       </div>
     </div>
 
   </div>
 
-
-  <ion-list>
-    <ion-item>
-      <ion-avatar item-start>
-        <img src="img/avatar-cher.png">
-      </ion-avatar>
-      <h2>Cher</h2>
-      <p>Ugh. As if.</p>
-    </ion-item>
-  </ion-list>
 
 </ion-content>
 
