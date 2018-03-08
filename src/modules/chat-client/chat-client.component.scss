@@ -92,10 +92,11 @@ chat-client {
                         //@include margin(2px, 0);
                         //margin: 2px 0;
                         font-size: 1.4rem;
-                        font-weight: normal;
+                        font-weight: norstickmal;
                         line-height: normal;
                     }
 
+                    stick
                     p {
                         //@include margin(0, 0, 2px);
                         @include margin(0);
@@ -162,51 +163,97 @@ chat-client {
         display: flex;
         flex-direction: column;
 
+        $margin-first-top: 10px;
+        $margin-time-td: 15px;
         $padding-message: 8px;
         $avatar-size: 28px;
         $size-triangle: 15px;
 
         .message {
             display: flex;
-            align-items: flex-start;
-            max-width: 75%;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
 
-            .user-img {
-                border-radius: 50%;
-                width: $avatar-size;
-                height: $avatar-size;
+            > time {
+                border-radius: $margin-time-td / 3;
+                padding: 2px 8px;
+                margin: $margin-time-td 0;
                 box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+                font-size: 0.9rem;
+                background-color: rgba(114, 157, 225, 0.83);
+                color: #3f3f3f;
+                white-space: nowrap;
+                font-weight: bolder;
+                z-index: 1000;
+
+                //position:sticky;
+
             }
 
-            .triangle {
-                position: relative;
+            > mt-time {
+                border-radius: $margin-time-td / 3;
+                padding: 2px 8px;
+                margin: $margin-time-td 0;
+                box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+                font-size: 0.9rem;
+                background-color: rgba(114, 157, 225, 0.83);
+                color: #3f3f3f;
+                white-space: nowrap;
+                font-weight: bolder;
+                z-index: 1000;
             }
 
-            .msg-content {
+            .msg-container {
                 display: flex;
-                align-items: flex-end;
-                border-radius: 10px;
-                padding: $padding-message;
-                border: 1px solid #ddd;
+                align-items: flex-start;
+                max-width: 75%;
 
-                p {
-                    margin: 0;
+                .user-img {
+                    border-radius: 50%;
+                    width: $avatar-size;
+                    height: $avatar-size;
+                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
                 }
 
-                .time {
-                    white-space: nowrap;
-                    font-size: 1.1rem;
-                    display: block;
-                    margin-bottom: -$padding-message + 2px;
+                .triangle {
+                    position: relative;
+                }
+
+                .msg-content {
+                    display: flex;
+                    align-items: flex-end;
+                    border-radius: 10px;
+                    padding: $padding-message;
+                    border: 1px solid #ddd;
+
+                    p {
+                        margin: 0;
+                    }
+
+                    time {
+                        white-space: nowrap;
+                        font-size: 1.1rem;
+                        display: block;
+                        margin-bottom: -$padding-message + 2px;
+                    }
                 }
             }
         }
 
         .message.first {
-            margin-top: 10px;
+            margin-top: $margin-first-top;
+
+            > time {
+                margin: ($margin-time-td - $margin-first-top) 0 $margin-time-td;
+            }
+
+            > mt-time {
+                margin: ($margin-time-td - $margin-first-top) 0 $margin-time-td;
+            }
         }
 
-        .message.left {
+        .left .msg-container {
             align-self: flex-start;
 
             .user-img {
@@ -227,12 +274,12 @@ chat-client {
                 height: $size-triangle;
                 position: absolute;
                 top: 2px;
-                left: -$size-triangle / 2;
+                left: -$size-triangle * 0.7;
                 display: block;
             }
         }
 
-        .message.right {
+        .right .msg-container {
             align-self: flex-end; //from wraper
             flex-direction: row-reverse;
 
@@ -242,7 +289,7 @@ chat-client {
                 top: 50px;
             }
 
-            .triangle:before {
+            .triangle:after {
                 content: "";
                 background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(-.922 0 0 .922 43.05 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$userBubbleColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
                 background-size: contain;
@@ -251,7 +298,7 @@ chat-client {
                 height: $size-triangle;
                 position: absolute;
                 top: 2px;
-                right: 0; //-$size-triangle / 2;
+                right: -$size-triangle * 0.7;
                 display: block;
             }
 
@@ -260,7 +307,7 @@ chat-client {
                 margin-right: 8px;
                 color: $userTextColor;
 
-                .time {
+                time {
                     color: rgb(36, 36, 36);
                 }
             }

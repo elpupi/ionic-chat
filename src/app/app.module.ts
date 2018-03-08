@@ -6,6 +6,8 @@ import { Events } from 'ionic-angular';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
+import { WindowService } from '../services/window.service';
+
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -26,6 +28,10 @@ import { UserServiceMock } from "../services/user.service.mock";
 const isChatServiceMock = true;
 const isUserServiceMock = true;
 
+//Utils
+import { MomentModule } from 'angular2-moment';
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -38,7 +44,8 @@ const isUserServiceMock = true;
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    ChatClientModule
+    ChatClientModule,
+    MomentModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -52,6 +59,7 @@ const isUserServiceMock = true;
   providers: [
     StatusBar,
     SplashScreen,
+    WindowService,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     {
       provide: ChatService, useFactory: (http, events) =>

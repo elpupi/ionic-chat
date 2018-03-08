@@ -8,78 +8,79 @@
 
 <ion-header>
 
-  <ion-navbar>
+    <ion-navbar>
+        <!--
+        <div class="mt-user-data">
+            <div class="mt-avatar">
+                <img [src]="userTo?.avatar">
+            </div>
+            <div class="description">
+                <h2>{{userTo?.name}}</h2>
+                <p>{{msgList.length > 0 ? msgList[msgList.length-1].status :""}}</p>
+            </div>
+        </div>
+ -->
+        <ion-buttons right>
+            <button ion-button icon-only>
+                <ion-icon name="videocam"></ion-icon>
+            </button>
+            <button ion-button icon-only>
+                <ion-icon name="call"></ion-icon>
+            </button>
+        </ion-buttons>
 
-    <div class="mt-user-data">
-      <div class="mt-avatar">
-        <img [src]="userTo?.avatar">
-      </div>
-      <div class="description">
-        <h2>{{userTo?.name}}</h2>
-        <p>{{msgList.length > 0 ? msgList[msgList.length-1].status :""}}</p>
-      </div>
-    </div>
-
-    <ion-buttons right>
-      <button ion-button icon-only>
-        <ion-icon name="videocam"></ion-icon>
-      </button>
-      <button ion-button icon-only>
-        <ion-icon name="call"></ion-icon>
-      </button>
-    </ion-buttons>
-
-  </ion-navbar>
+    </ion-navbar>
 
 </ion-header>
 
 <ion-content>
-  <div class="message-wrap">
+    <div class="message-wrap">
 
-    <div *ngFor="let msg of msgList; let i = index" class="message" [class.first]="isFirstMessage(i)" [class.left]="msg.userFrom.id===userTo?.id"
-      [class.right]="msg.userFrom.id===user?.id">
-      <img class="user-img" [src]="msg.userFrom.id===user?.id ? msg.userFrom.avatar : msg.userTo.avatar" alt="">
-      <ion-spinner name="dots" *ngIf="msg.status==='pending'"></ion-spinner>
-      <!--<div class="msg-info">
+        <div *ngFor="let msg of msgList; let i = index" class="message" [class.first]="isFirstMessage(i)" [class.left]="msg.userFrom.id===userTo?.id"
+            [class.right]="msg.userFrom.id===user?.id">
+            <time #stickytime class="stickytime" *ngIf="isNewDay(i)">{{msg.time | amLocal | amCalendar}}</time>
+            <!-- <mt-time class="stickytime" *ngIf="isNewDay(i)">{{msg.time | amLocal | amCalendar}}</mt-time> -->
+            <div class="msg-container">
+                <img class="user-img" [src]="msg.userFrom.id===user?.id ? msg.userFrom.avatar : msg.userTo.avatar" alt="">
+                <ion-spinner name="dots" *ngIf="msg.status==='pending'"></ion-spinner>
+                <!--<div class="msg-info">
           <p>
             {{msg.userFrom.id === user?.id ? msg.userFrom.name : msg.userTo.name}}&nbsp;&nbsp;&nbsp;{{msg.time | relativeTime}}</p>
         </div>-->
-      <div class="msg-content-container triangle">
-
-        <div class="msg-content">
-          <!--<span class="triangle"></span>-->
-          <p class="msg-text line-breaker ">{{msg.message}}</p>
-          <div class="msg-meta">
-            <span class="time">{{msg.time | date:'shortTime'}}</span>
-          </div>
+                <div class="msg-content triangle">
+                    <!--<span class="triangle"></span>-->
+                    <p class="msg-text line-breaker">{{msg.message}}</p>
+                    <div class="msg-meta">
+                        <time>{{msg.time | date:'shortTime'}}</time>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-  </div>
+    </div>
 
 
 </ion-content>
 
 <ion-footer no-border [style.height]="showEmojiPicker ? '255px' : '55px'">
-  <ion-grid class="input-wrap">
-    <ion-row>
-      <ion-col col-2>
-        <button [disabled]="chatDisabled" ion-button clear icon-only item-right (click)="switchEmojiPicker()">
-          <ion-icon name="md-happy"></ion-icon>
-        </button>
-      </ion-col>
-      <ion-col col-8>
-        <ion-textarea [disabled]="chatDisabled" #chat_input placeholder="Text Input" [(ngModel)]="editorMsg" (keyup.enter)="sendMsg()"
-          (focus)="onFocus()">
-        </ion-textarea>
-      </ion-col>
-      <ion-col col-2>
-        <button [disabled]="chatDisabled" ion-button clear icon-only item-right (click)="sendMsg()">
-          <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <emoji-picker *ngIf="showEmojiPicker" [(ngModel)]="editorMsg"></emoji-picker>
+    <ion-grid class="input-wrap">
+        <ion-row>
+            <ion-col col-2>
+                <button [disabled]="chatDisabled" ion-button clear icon-only item-right (click)="switchEmojiPicker()">
+                    <ion-icon name="md-happy"></ion-icon>
+                </button>
+            </ion-col>
+            <ion-col col-8>
+                <ion-textarea [disabled]="chatDisabled" #chat_input placeholder="Text Input" [(ngModel)]="editorMsg
+       " (keyup.enter)="sendMsg()" (focus)="onFocus()">
+                </ion-textarea>
+            </ion-col>
+            <ion-col col-2>
+                <button [disabled]="chatDisabled" ion-button clear icon-only item-right (click)="sendMsg()">
+                    <ion-icon name="ios-send" ios="ios-send" md="md-send"></ion-icon>
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <emoji-picker *ngIf="showEmojiPicker" [(ngModel)]="editorMsg"></emoji-picker>
 </ion-footer>
