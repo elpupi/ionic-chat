@@ -1,0 +1,138 @@
+mt-nav-bar {
+    /*
+     *
+     *
+     *
+     *
+     *
+     * SECTION: NAV BAR
+     */
+    h2 {
+        @include margin(0);
+        @include padding(0);
+
+        //@include margin(2px, 0);
+        //margin: 2px 0 0 0;
+        font-size: 1.6rem;
+        font-weight: normal;
+    }
+
+    /* h3, h4, h5, h6 {
+        @include margin(0);
+        @include padding(0);
+
+        //@include margin(2px, 0);
+        //margin: 2px 0;
+        font-size: 1.4rem;
+        font-weight: normal;
+        line-height: normal;
+    } */
+
+    p {
+        //@include margin(0, 0, 2px);
+        @include margin(0);
+        @include padding(0);
+
+        overflow: inherit;
+        font-size: 1.4rem;
+        line-height: normal;
+        text-overflow: inherit;
+        color: $item-md-paragraph-text-color;
+    }
+
+    /*
+     *
+     *
+     *
+     *
+     *
+     * SECTION: USER DATAS (avatar + description)
+     */
+
+    .mt-user {
+        @include margin(0);
+        @include padding(0);
+        @include text-align(initial);
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+
+        //
+        overflow: hidden;
+        border: 0;
+        font-weight: normal;
+        line-height: normal;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .mt-avatar {
+        display: block;
+    }
+
+    .mt-avatar__img {
+        //@include border-radius(50%);
+        border-radius: 50%;
+        overflow: hidden;
+        object-fit: contain;
+    }
+
+    .mt-user__description {
+        @include margin(0);
+        @include padding(0);
+
+        padding: 0;
+        text-overflow: ellipsis;
+
+        //align-self: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        border: 0;
+    }
+
+    /*
+     *
+     *
+     *
+     * PLATFORM SPECIFIC SETTINGS
+     */
+
+    /*
+     * SASS variables
+     */
+
+    $platforms: md ios wp;
+    $toolbar-height: $navbar-md-height $navbar-ios-height $navbar-wp-height;
+
+    // $item-avatar-size: $item-md-avatar-size, $item-ios-avatar-size, $item-wp-avatar-size;
+    $item-paragraph-text-color: $item-md-paragraph-text-color, $item-ios-paragraph-text-color, $item-wp-paragraph-text-color;
+
+    @for $i from 1 through length($platforms) {
+        .#{nth($platforms, $i)} & {
+            .mt-user {
+                max-height: nth($toolbar-height, $i) * 0.95;
+            }
+
+            // SASS avatar size according to the toolbar height (70%)
+            $avatar-size: nth($toolbar-height, $i) * 0.7;
+
+            .mt-avatar {
+                min-width: $avatar-size;
+                min-height: $avatar-size;
+            }
+
+            .mt-avatar__img {
+                //height: $avatar-size;
+                width: $avatar-size;
+                height: nth($toolbar-height, $i) * 0.7;
+            }
+
+            .mt-user__description {
+                margin: (0.05 * $avatar-size) 0 (0.05 * $avatar-size) 0.8rem;
+            }
+        }
+    }
+}

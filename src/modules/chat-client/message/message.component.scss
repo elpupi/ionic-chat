@@ -1,0 +1,159 @@
+/*
+ * mt-message element
+ *
+ * It's a single bubble message of the chat with 2 states
+ *
+ * - State 1: left -> the bubble message is on the left of the chat
+ * - State 2: right -> the bubble message is on the right of the chat
+ *
+ */
+
+mt-message {
+    /*
+     * SCSS variables
+     */
+    $avatar-size: 28px;
+    $padding-message-bubble: 8px;
+
+    /* triangle is the little link of the bullet towards the avatat */
+    $size-triangle: 15px;
+
+    /* COLORS */
+    //$userBackgroundColor: #387ef5;
+    $userBubbleColor: #d18686;
+    $userTextColor: #2f2f2f; //#fff;
+
+    $toUserBubbleColor: #fff;
+    $toUserTextColor: #343434;
+
+    /*
+     *
+     *
+     *
+     * BEGINING OF SECTION
+     */
+
+    display: flex;
+    align-items: flex-start;
+    max-width: 75%;
+
+    .avatar {
+        border-radius: 50%;
+        width: $avatar-size;
+        height: $avatar-size;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+    }
+
+    .message-bubble {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        border-radius: 10px;
+        padding: $padding-message-bubble;
+        border: 1px solid #ddd;
+    }
+
+    .message-bubble__time {
+        white-space: nowrap;
+        font-size: 1.1rem;
+        display: block;
+        margin-bottom: -$padding-message-bubble + 2px;
+    }
+
+    .message-bubble__text {
+        margin: 0;
+    }
+
+    .message-bubble--triangle {
+        position: relative;
+    }
+
+    /*
+     *
+     *
+     *
+     *
+     *      STATE 1: LEFT
+     *      When the mt-message is on the LEFT
+     */
+
+    &.left {
+        align-self: flex-start;
+
+        .avatar {
+            margin-right: 8px;
+        }
+
+        .message-bubble {
+            background-color: $toUserBubbleColor;
+            color: $toUserTextColor;
+        }
+
+        .message-bubble--triangle:before {
+            content: "";
+            background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(.922 0 0 .922 -40.145 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$toUserBubbleColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: $size-triangle;
+            height: $size-triangle;
+            position: absolute;
+            top: 2px;
+            left: -$size-triangle * 0.7;
+            display: block;
+        }
+    }
+
+    /*
+     *
+     *
+     *
+     *
+     *      STATE 2: RIGHT
+     *      When the mt-message is on the RIGHT
+     */
+
+    &.right {
+        align-self: flex-end; // from wraper
+        flex-direction: row-reverse;
+
+        ion-spinner {
+            position: absolute;
+            right: 10px;
+            top: 50px;
+        }
+
+        .message-bubble--triangle:after {
+            content: "";
+            background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(-.922 0 0 .922 43.05 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$userBubbleColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: $size-triangle;
+            height: $size-triangle;
+            position: absolute;
+            top: 2px;
+            right: -$size-triangle * 0.7;
+            display: block;
+        }
+
+        .message-bubble {
+            background-color: $userBubbleColor;
+            margin-right: 8px;
+            color: $userTextColor;
+
+            time {
+                color: rgb(36, 36, 36);
+            }
+        }
+    }
+
+    /*
+     *
+     *
+     *
+     *
+     * HELPERS
+     */
+    .line-breaker {
+        white-space: pre-line;
+    }
+}

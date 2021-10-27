@@ -1,0 +1,13 @@
+<img class="avatar" [src]="message?.userFrom.id === user?.id ? message?.userFrom.avatar : message?.userTo.avatar" alt="">
+<ion-spinner name="dots" *ngIf="message?.status==='pending'"></ion-spinner>
+<!--<div class="message-info">
+    <p>
+        {{message?.userFrom.id === user?.id ? message?.userFrom.name : message?.userTo.name}}&nbsp;&nbsp;&nbsp;{{message?.time | relativeTime}}</p>
+    </div>-->
+<div class="message-bubble message-bubble--triangle">
+    <!--<span class="triangle"></span>-->
+    <p class="message-bubble__text line-breaker">{{message?.message}}</p>
+    <div class="message-bubble__meta">
+        <time class="message-bubble__time">{{message?.time | date:'shortTime'}}</time>
+    </div>
+</div>

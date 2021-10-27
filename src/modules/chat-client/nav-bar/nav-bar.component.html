@@ -1,0 +1,30 @@
+<ion-navbar>
+
+    <!-- Left side of the NAV -->
+    <div class="mt-user">
+
+        <div class="mt-avatar">
+            <img class="mt-avatar__img" [src]="userTo?.avatar">
+        </div>
+
+        <div class="mt-user__description">
+            <h2>{{userTo?.name}}</h2>
+            <p>{{status}}</p>
+            <!-- <p>{{msgList.length > 0 ? msgList[msgList.length-1].status :""}}</p> -->
+        </div>
+
+    </div>
+
+
+    <!-- Right side of the NAV -->
+    <ion-buttons right>
+        <button ion-button icon-only>
+            <ion-icon name="videocam"></ion-icon>
+        </button>
+        <button ion-button icon-only>
+            <ion-icon name="call"></ion-icon>
+        </button>
+    </ion-buttons>
+
+
+</ion-navbar>

@@ -1,10 +1,11 @@
 import { Component, ElementRef, HostListener, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { Content, Events, NavParams, TextInput } from 'ionic-angular';
+import { Content, Events, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 
 import { ChatMessage } from '../../shared/chat-message';
 import { User } from '../../shared/user';
 import { MtTime } from './time/time.component';
+import { MtInputMessage } from './input-message/input-message.component';
 import { ChatService } from '../../services/chat.service';
 import { UserService } from '../../services/user.service';
 import { WindowService } from '../../services/window.service';
@@ -30,43 +31,36 @@ export class ChatClientComponent implements OnInit {
     chatDisabled = true;
 
     @ViewChild(Content) content: Content;
-    @ViewChild('chat_input') messageInput: TextInput;
     // @ViewChildren(MtTime, { read: ElementRef }) times: QueryList<MtTime>;
     @ViewChildren('stickytime') times: QueryList<MtTime>;
+    @ViewChild(MtInputMessage, { read: ElementRef }) inputMessage: ElementRef;
 
     msgList: ChatMessage[] = [];
-    editorMsg = '';
-    showEmojiPicker = false;
+
 
     private stickies: Stickies;
     private scrollPosition: ScrollOldAndNewPosition;
 
     private stickiesList: Array<HTMLElement> = [];
     private firstStickiesAdd = true;
-    private ttop: number;
-    private ttop2: number;
+
 
     constructor(private chatService: ChatService, private userService: UserService,
         private windowService: WindowService,
         private events: Events, navParams: NavParams) {
 
-        let disable = true;
-        this.userService.getUser(navParams.get('user')).then(user => {
-            this.user = user;
-            if (disable) {
-                disable = false;
-            } else {
-                this.chatDisabled = false;
+        const usersPromises = [
+            this.userService.getUser(navParams.get('user')).then(user => this.user = user),
+            this.userService.getUser(navParams.get('userTo')).then(user => this.userTo = user)
+        ]; // chatDisabled a changé avec online status ??  je ne me rappelle plus pourquoi j'ai écris ca....
+
+        Promise.all(usersPromises).then(
+            () => this.chatDisabled = false,
+            err => {
+                console.error('Aieaaaaa ERROR HANDLING NOT YET IMPLEMENTED');
+                throw new Error(err);
             }
-        });
-        this.userService.getUser(navParams.get('userTo')).then(user => {
-            this.userTo = user;
-            if (disable) {
-                disable = false;
-            } else {
-                this.chatDisabled = false;
-            }
-        }); // chatDisabled a changé avec online status
+        );
 
     }
 
@@ -79,17 +73,10 @@ export class ChatClientComponent implements OnInit {
     }
 
     loadStickies() {
-
-        this.content.ionScroll.subscribe((data) => {
-            // console.log('oups');
-            this.onWindowScroll(data);
-        });
-
         this.times.changes.subscribe(queryList => {
             queryList.forEach((elementRef, index) => {
 
                 window.setTimeout(() => {
-                    console.log('native Element', elementRef.nativeElement.getBoundingClientRect().top);
                     this.stickiesList.push(elementRef.nativeElement);
 
                     if (index === queryList.length - 1)
@@ -101,24 +88,26 @@ export class ChatClientComponent implements OnInit {
     }
 
     addStickies() {
-        const scrollContainer = this.content.getScrollElement();
-
-        this.scrollPosition = {
-            new: {
-                scrollTop: scrollContainer.scrollTop,
-                scrollLeft: scrollContainer.scrollLeft
-            },
-            old: {
-                scrollTop: undefined,
-                scrollLeft: undefined
-            }
-        };
-
-        const scrollContainersSimple = new ScrollContainersSimple(scrollContainer);
-        this.stickies = new Stickies(this.content.getScrollElement(), { handleEvents: false, scrollContainers: scrollContainersSimple });
-
         if (this.firstStickiesAdd) {
+            const scrollContainer = this.content.getScrollElement();
+
+            this.scrollPosition = {
+                new: {
+                    scrollTop: scrollContainer.scrollTop,
+                    scrollLeft: scrollContainer.scrollLeft
+                },
+                old: {
+                    scrollTop: undefined,
+                    scrollLeft: undefined
+                }
+            };
+
+            const scrollContainersSimple = new ScrollContainersSimple(scrollContainer);
+            this.stickies = new Stickies(this.content.getScrollElement(), { handleEvents: false, scrollContainers: scrollContainersSimple });
             this.stickies.add(this.stickiesList);
+
+            this.content.ionScroll.subscribe(data => this.onWindowScroll(data));
+
             this.firstStickiesAdd = false;
         }
     }
@@ -145,19 +134,11 @@ export class ChatClientComponent implements OnInit {
         });
     }
 
-    onFocus() {
-        this.showEmojiPicker = false;
-        this.content.resize();
-        //   this.scrollToBottom();
-    }
+    userToStatus() {
+        if (this.msgList.length > 0)
+            return this.msgList[this.msgList.length - 1].status;
 
-    switchEmojiPicker() {
-        this.showEmojiPicker = !this.showEmojiPicker;
-        if (!this.showEmojiPicker) {
-            this.messageInput.setFocus();
-        }
-        this.content.resize();
-        this.scrollToBottom();
+        return '';
     }
 
     /**
@@ -176,26 +157,20 @@ export class ChatClientComponent implements OnInit {
     }
 
 
-    sendMsg() {
-        if (!this.editorMsg.trim()) return;
-
+    onMessageSent(message) {
         const id = Date.now().valueOf();
+
         // Mock message
         const newMsg = new ChatMessage(
             id,
             this.user,
             this.userTo,
             Date.now(),
-            this.editorMsg,
+            message,
             'pending'
         );
 
         this.pushNewMsg(newMsg);
-        this.editorMsg = '';
-
-        if (!this.showEmojiPicker) {
-            this.messageInput.setFocus();
-        }
 
         this.chatService.sendMsg(newMsg)
             .then(() => {
@@ -204,6 +179,13 @@ export class ChatClientComponent implements OnInit {
                     this.msgList[index].status = 'success';
                 }
             });
+
+        console.log((<HTMLElement>this.inputMessage.nativeElement).getBoundingClientRect().height);
+
+    }
+
+    onEmoticonsOpen() {
+        this.content.resize();
     }
 
     pushNewMsg(msg: ChatMessage) {
@@ -239,8 +221,22 @@ export class ChatClientComponent implements OnInit {
         return false;
     }
 
+
+    onInputMessageFocus() {
+        this.content.resize();
+        this.scrollToBottom();
+    }
+
+
+    onInputMessageFocusOut() {
+
+    }
+
     // @HostListener('window:scroll', ['$event'])
     onWindowScroll(data) {// $event) {
+        if (!data)
+            return;
+
         this.scrollPosition.old = this.scrollPosition.new;
         this.scrollPosition.new = { scrollLeft: data.scrollLeft, scrollTop: data.scrollTop };
 

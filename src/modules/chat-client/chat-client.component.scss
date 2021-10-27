@@ -1,120 +1,33 @@
-$platforms: md ios wp;
-$toolbar-height: $navbar-md-height $navbar-ios-height $navbar-wp-height;
-$item-avatar-size: $item-md-avatar-size, $item-ios-avatar-size, $item-wp-avatar-size;
-$item-paragraph-text-color: $item-md-paragraph-text-color, $item-ios-paragraph-text-color, $item-wp-paragraph-text-color;
-
-//$userBackgroundColor: #387ef5;
-$userBubbleColor: #d18686;
-$userTextColor: #2f2f2f; //#fff;
-
-$toUserBubbleColor: #fff;
-$toUserTextColor: #343434;
-
-$background-color: #e6e7e0;
-$foreground-color: #b88585;
-
 chat-client {
-    @for $i from 1 through length($platforms) {
-        .#{nth($platforms, $i)} & {
-            ion-navbar {
-                /*.navbar-user img {
-                    height: nth($toolbar-height, $i) * 0.7;
-                  }*/
+    /*
+     *
+     *
+     *
+     *
+     *
+     * SECTION: MESSAGES (.messages is also the container ion-content)
+     */
 
-                .mt-user-data {
-                    @include margin(0);
-                    @include padding(0);
-                    @include text-align(initial);
+    /*
+     * SASS variables
+     */
 
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: start;
+    $background-color: #e6e7e0;
+    $foreground-color: #b88585; // it's the foreground lines of the svg pattern
 
-                    //
-                    overflow: hidden;
-                    border: 0;
-                    font-weight: normal;
-                    line-height: normal;
-                    text-decoration: none;
-                    color: inherit;
-                    max-height: nth($toolbar-height, $i) * 0.95;
+    /* margin top/down for time element. */
+    $margin-time-td: 15px;
 
-                    $avatar-size: nth($toolbar-height, $i) * 0.7;
+    /* margin top for first message of a user when he is writting few messages in a row */
+    $margin-first-top: 10px;
 
-                    > .mt-avatar {
-                        display: block;
-                        min-width: $avatar-size;
-                        min-height: $avatar-size;
+    .messages {
+        width: 100%;
+        padding: 0 10px;
+        display: flex;
+        flex-direction: column;
 
-                        > img {
-                            //@include border-radius(50%);
-                            //margin: 0 2px 0 0;
-                            border-radius: 50%;
-                            overflow: hidden;
-
-                            //height: $avatar-size;
-                            width: $avatar-size;
-                            object-fit: contain;
-                        }
-                    }
-
-                    > .description {
-                        @include margin(0);
-                        @include padding(0);
-
-                        margin: (0.05 * $avatar-size) 0 (0.05 * $avatar-size) 0.8rem;
-                        padding: 0;
-                        text-overflow: ellipsis;
-
-                        //align-self: auto;
-                        display: flex;
-                        flex: 1;
-                        flex-direction: column;
-                        align-items: start;
-                        border: 0;
-                    }
-
-                    h2 {
-                        @include margin(0);
-                        @include padding(0);
-
-                        //@include margin(2px, 0);
-                        //margin: 2px 0 0 0;
-                        font-size: 1.6rem;
-                        font-weight: normal;
-                    }
-
-                    h3, h4, h5, h6 {
-                        @include margin(0);
-                        @include padding(0);
-
-                        //@include margin(2px, 0);
-                        //margin: 2px 0;
-                        font-size: 1.4rem;
-                        font-weight: norstickmal;
-                        line-height: normal;
-                    }
-
-                    stick
-                    p {
-                        //@include margin(0, 0, 2px);
-                        @include margin(0);
-                        @include padding(0);
-
-                        //margin: 0 0 2px 0;
-                        overflow: inherit;
-                        font-size: 1.4rem;
-                        line-height: normal;
-                        text-overflow: inherit;
-                        color: $item-md-paragraph-text-color;
-                    }
-                }
-            }
-        }
-    }
-
-    ion-content .scroll-content {
+        /* messages is the container ion-content */
         //background-color: #f5f5f5;
         background-color: $background-color;
 
@@ -123,194 +36,55 @@ chat-client {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='152' height='152' viewBox='0 0 152 152'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='temple' fill='%23#{str-slice(#{$foreground-color}, 2)}' fill-opacity='#{$foreground-opacity}'%3E%3Cpath d='M152 150v2H0v-2h28v-8H8v-20H0v-2h8V80h42v20h20v42H30v8h90v-8H80v-42h20V80h42v40h8V30h-8v40h-42V50H80V8h40V0h2v8h20v20h8V0h2v150zm-2 0v-28h-8v20h-20v8h28zM82 30v18h18V30H82zm20 18h20v20h18V30h-20V10H82v18h20v20zm0 2v18h18V50h-18zm20-22h18V10h-18v18zm-54 92v-18H50v18h18zm-20-18H28V82H10v38h20v20h38v-18H48v-20zm0-2V82H30v18h18zm-20 22H10v18h18v-18zm54 0v18h38v-20h20V82h-18v20h-20v20H82zm18-20H82v18h18v-18zm2-2h18V82h-18v18zm20 40v-18h18v18h-18zM30 0h-2v8H8v20H0v2h8v40h42V50h20V8H30V0zm20 48h18V30H50v18zm18-20H48v20H28v20H10V30h20V10h38v18zM30 50h18v18H30V50zm-2-40H10v18h18V10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
-    ion-footer {
+    .message {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .message__time {
+        border-radius: $margin-time-td / 3;
+        padding: 2px 8px;
+        margin: $margin-time-td 0;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
+        font-size: 0.9rem;
+        background-color: rgba(114, 157, 225, 0.83);
+        color: #3f3f3f;
+        white-space: nowrap;
+        font-weight: bolder;
+        z-index: 1000;
+    }
+
+    .message.first {
+        margin-top: $margin-first-top;
+
+        /*
+         * if the first message (few messages in a row) of a user is also the first message of a day
+         * => we substract this first margin top to the time element to stay consistent
+         */
+        > .message__time {
+            margin: ($margin-time-td - $margin-first-top) 0 $margin-time-td;
+        }
+
+        > mt-time {
+            margin: ($margin-time-td - $margin-first-top) 0 $margin-time-td;
+        }
+    }
+
+    /*
+     *
+     *
+     *
+     *
+     * SECTION: FOOTER-INPUT
+     */
+
+    .footer-input {
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.11);
         background-color: #fff;
-        height: 255px;
-    }
 
-    .line-breaker {
-        white-space: pre-line;
-    }
+        // height: 255px;
 
-    .input-wrap {
-        padding: 0 5px;
-
-        ion-textarea {
-            position: static;
-        }
-
-        ion-col.col {
-            padding: 0;
-        }
-
-        button {
-            width: 100%;
-            height: 55px;
-            font-size: 1.3em;
-            margin: 0;
-        }
-
-        textarea {
-            border-bottom: 1px $userBubbleColor;
-            border-style: solid;
-        }
-    }
-
-    .message-wrap {
-        width: 100%;
-        padding: 0 10px;
-        display: flex;
-        flex-direction: column;
-
-        $margin-first-top: 10px;
-        $margin-time-td: 15px;
-        $padding-message: 8px;
-        $avatar-size: 28px;
-        $size-triangle: 15px;
-
-        .message {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            width: 100%;
-
-            > time {
-                border-radius: $margin-time-td / 3;
-                padding: 2px 8px;
-                margin: $margin-time-td 0;
-                box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
-                font-size: 0.9rem;
-                background-color: rgba(114, 157, 225, 0.83);
-                color: #3f3f3f;
-                white-space: nowrap;
-                font-weight: bolder;
-                z-index: 1000;
-
-                //position:sticky;
-
-            }
-
-            > mt-time {
-                border-radius: $margin-time-td / 3;
-                padding: 2px 8px;
-                margin: $margin-time-td 0;
-                box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
-                font-size: 0.9rem;
-                background-color: rgba(114, 157, 225, 0.83);
-                color: #3f3f3f;
-                white-space: nowrap;
-                font-weight: bolder;
-                z-index: 1000;
-            }
-
-            .msg-container {
-                display: flex;
-                align-items: flex-start;
-                max-width: 75%;
-
-                .user-img {
-                    border-radius: 50%;
-                    width: $avatar-size;
-                    height: $avatar-size;
-                    box-shadow: 0 0 2px rgba(0, 0, 0, 0.36);
-                }
-
-                .triangle {
-                    position: relative;
-                }
-
-                .msg-content {
-                    display: flex;
-                    align-items: flex-end;
-                    border-radius: 10px;
-                    padding: $padding-message;
-                    border: 1px solid #ddd;
-
-                    p {
-                        margin: 0;
-                    }
-
-                    time {
-                        white-space: nowrap;
-                        font-size: 1.1rem;
-                        display: block;
-                        margin-bottom: -$padding-message + 2px;
-                    }
-                }
-            }
-        }
-
-        .message.first {
-            margin-top: $margin-first-top;
-
-            > time {
-                margin: ($margin-time-td - $margin-first-top) 0 $margin-time-td;
-            }
-
-            > mt-time {
-                margin: ($margin-time-td - $margin-first-top) 0 $margin-time-td;
-            }
-        }
-
-        .left .msg-container {
-            align-self: flex-start;
-
-            .user-img {
-                margin-right: 8px;
-            }
-
-            .msg-content {
-                background-color: $toUserBubbleColor;
-                color: $toUserTextColor;
-            }
-
-            .triangle:before {
-                content: "";
-                background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(.922 0 0 .922 -40.145 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$toUserBubbleColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
-                background-size: contain;
-                background-repeat: no-repeat;
-                width: $size-triangle;
-                height: $size-triangle;
-                position: absolute;
-                top: 2px;
-                left: -$size-triangle * 0.7;
-                display: block;
-            }
-        }
-
-        .right .msg-container {
-            align-self: flex-end; //from wraper
-            flex-direction: row-reverse;
-
-            ion-spinner {
-                position: absolute;
-                right: 10px;
-                top: 50px;
-            }
-
-            .triangle:after {
-                content: "";
-                background: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' height='7.4645' width='10.982' version='1.1' viewBox='0 0 2.9057943 1.974969'%3E%3Cg transform='matrix(-.922 0 0 .922 43.05 -58.181)'%3E%3Cpath style='opacity:1;stroke-linejoin:round;stroke-dashoffset:0.48;stroke:%23000;stroke-linecap:round;stroke-width:.0034613;fill:%23#{str-slice(#{$userBubbleColor}, 2)}' d='m45.998 65.243 0.6926-1.7141c-1.0125-0.25946-2.0918-0.46554-3.1482-0.41758 0.8557 0.37165 1.776 1.0114 2.4556 2.1317z'/%3E%3C/g%3E%3C/svg%3E");
-                background-size: contain;
-                background-repeat: no-repeat;
-                width: $size-triangle;
-                height: $size-triangle;
-                position: absolute;
-                top: 2px;
-                right: -$size-triangle * 0.7;
-                display: block;
-            }
-
-            .msg-content {
-                background-color: $userBubbleColor;
-                margin-right: 8px;
-                color: $userTextColor;
-
-                time {
-                    color: rgb(36, 36, 36);
-                }
-            }
-        }
     }
 }

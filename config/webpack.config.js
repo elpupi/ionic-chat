@@ -1,11 +1,8 @@
 const defaultConfig = require('../node_modules/@ionic/app-scripts/config/webpack.config');
 const merge = require('webpack-merge');
-const path = require('path');
 
-const AliasRegexOverridePlugin = require('alias-regex-webpack-plugin');
 
-const { CheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loader');
-const AwesomeTyprscriptLoader = CheckerPlugin;
+const { /* CheckerPlugin, */ TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 const config = {
     resolve: {
@@ -17,7 +14,7 @@ const config = {
         // WEIRD but look this https://github.com/ionic-team/ionic-app-scripts/issues/474
         // symlinks: false
     }
-}
+};
 
 
 module.exports = {
